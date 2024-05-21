@@ -17,6 +17,7 @@ class GraalVM(
         val home: Path
 ) {
 
+    val javaPath: Path
     val bin: Path
     val nativeImage: Path
     val version: JDKVersion
@@ -28,6 +29,10 @@ class GraalVM(
         bin = home.resolve("bin")
         if (!Files.exists(bin)) {
             throw IOException("GraalVM home doesn't contain the bin directory: $home")
+        }
+        javaPath = bin.resolve("java")
+        if (!Files.exists(javaPath)) {
+            throw IOException("GraalVM home doesn't contain the bin/java executable: $home")
         }
 
         if (OsUtils.isWindows()) {
